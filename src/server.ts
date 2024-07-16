@@ -1,19 +1,19 @@
 import express from 'express';
-
-
-import { Router , Request, Response } from 'express';
+import cors from 'cors';
+import { router } from './routers/index';
+import { connectDB } from './config/db';
 
 const app = express();
-const router = Router();
 
+connectDB();
+
+
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors())
 
-router.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'Hello with TypeScript' });
-})
+app.use('/api/v1', router);
 
-app.use(router);
-
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(process.env.PORT || 3333, () => {
+    console.log(`Server is running on port ${process.env.PORT || 3333}`);
 });
