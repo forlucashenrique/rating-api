@@ -5,7 +5,7 @@ const doc = {
       title: 'rating API Documentation',
       description: 'This is a simple rating API using Node.js, Express, and MongoDB',
     },
-    host: 'localhost:3000'
+    host: 'localhost:3333'
 };
   
 const outputFile = '../swagger.json';
