@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import { executeRegister } from '../repositories/AuthRespository';
+import { executeLogin } from '../repositories/AuthRespository';
 import { generateJwtToken } from '../utils/JwtService';
 
 import bcrypt from 'bcryptjs';
@@ -13,7 +13,7 @@ export const login = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'InvalidBody' });
         }
 
-        const user = await executeRegister(email);
+        const user = await executeLogin(email);
 
         if (!user) {
             return res.status(404).json({ message: 'InvalidCredentials' });
@@ -26,7 +26,11 @@ export const login = async (req: Request, res: Response) => {
         }
 
         res.status(201).json({
-            user, 
+            user: {
+                name: user.name,
+                email: user.email,
+                id: user._id
+            }, 
             token: generateJwtToken({ id: user._id })
         });
 

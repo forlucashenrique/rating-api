@@ -1,13 +1,13 @@
 
 import { createUser, getUser, getUsers, updateUser } from '../controllers/UsersControllers';
-import { Router, Request, Response} from 'express';
+import { Router} from 'express';
 import { authMiddleware } from '../middlewares/authMiddleware';
-import { login } from '../controllers/AuthControllers';
+import { userRegisterSchema } from '../schemas/userSchemas';
+import { validateData } from '../middlewares/validationMiddleware';
 
-export const usersRoutes = Router();
+export const usersRoutes: Router = Router();
 
 usersRoutes.get('/', authMiddleware, getUsers)
 usersRoutes.get('/:id', authMiddleware, getUser)
 usersRoutes.patch('/', authMiddleware, updateUser)
-usersRoutes.post('/register', createUser)
-usersRoutes.post('/login', login)
+usersRoutes.post('/register', validateData(userRegisterSchema), createUser)
