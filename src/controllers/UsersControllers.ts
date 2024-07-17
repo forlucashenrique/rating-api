@@ -61,6 +61,8 @@ export const updateUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.body;
 
+        console.log(userId)
+
         const user = await executeGetUser(userId);
 
         if (!user) {

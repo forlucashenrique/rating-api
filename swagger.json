@@ -1,13 +1,13 @@
 {
+  "openapi": "3.0.0",
   "swagger": "3.0",
-  "openapi": "3.1.0",
   "info": {
     "title": "rating API Documentation",
     "description": "This is a simple rating API using Node.js, Express, and MongoDB",
     "version": "1.0.0"
   
   },
-  "host": "localhost:3333",
+  "url": "http://localhost:3000",
   "basePath": "/",
   "schemes": [
     "http"
@@ -21,23 +21,11 @@
       }
     }
   },
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
+ 
   "paths": {
     "/api/v1/users/": {
       "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        
+        "description": "",        
         "security": [
           {
             "bearerAuth": []
@@ -58,26 +46,31 @@
       },
       "patch": {
         "description": "",
-        "parameters": [
+        "security": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string",
-            "exemple": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OTdlYTYxNGJkNDg4ODQ5MjdhMDlmZiIsImlhdCI6MTcyMTIzMTk2OSwiZXhwIjoxNzIxMzE4MzY5fQ._y0dXowUkXCieaTDIKZi5Mal0BBSfultvFD8JM4p3P0"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "example": "any"
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "username"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "username@mail.com" 
+                  }
                 }
               }
             }
           }
-        ],
+        },
+
         "responses": {
           "200": {
             "description": "OK"
@@ -97,16 +90,16 @@
     "/api/v1/users/{id}": {
       "get": {
         "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
             "type": "string"
           }
         ],
@@ -128,27 +121,31 @@
     },
     "/api/v1/users/register": {
       "post": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "username"
-                },
-                "email": {
-                  "example": "username@mail.com"
-                },
-                "password": {
-                  "example": "çlfksd02"
+        "description": "create an user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "username"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "username@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "çlfksd02"
+                  }
                 }
               }
             }
           }
-        ],
+        },
+       
         "responses": {
           "201": {
             "description": "A JSON with User data",
@@ -213,23 +210,25 @@
     "/api/v1/auth/login": {
       "post": {
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties":{
-                "email": {
-                  "example": "username@mail.com"
-                },
-                "password": {
-                  "example": "çlfksd02"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "username@mail.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "çlfksd02"
+                  }
                 }
               }
             }
           }
-        ],
+        },
         "security": {
           "bearerAuth": []
         },
@@ -243,32 +242,66 @@
     "/api/v1/rating/create": {
       "post": {
         "description": "",
-        "parameters": [
+        "security": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-
-                "rating": {
-                  "example": "any"
-                },
-                "comment": {
-                  "example": "any"
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": {
+                    "type": "number",
+                    "example": 3
+                  },
+                  "comment": {
+                    "type": "string",
+                    "example": "lorem ipsum"
+                  }
                 }
               }
             }
           }
-        ],
+        },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                   
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string"
+                        },
+                        "comment": {
+                          "type": "number"
+                        },
+                        "rating": {
+                          "type": "string"
+                        },
+                        "_id": {
+                          "type": "string"
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        },
+                        "updatedAt": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -282,11 +315,9 @@
     "/api/v1/rating/": {
       "get": {
         "description": "",
-        "parameters": [
+        "security": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
+            "bearerAuth": []
           }
         ],
         "responses": {
@@ -305,16 +336,16 @@
     "/api/v1/rating/{id}": {
       "get": {
         "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
             "type": "string"
           }
         ],
@@ -335,36 +366,39 @@
       },
       "patch": {
         "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rating": {
+                    "type": "number",
+                    "example": 5
+                  },
+                  "comment": {
+                    "type": "string",
+                    "example": "ipsum lorem 1"
+                  }
+                }
+              }
+            }
+          }
+        },
+
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "example": "any"
-                },
-                "rating": {
-                  "example": "any"
-                },
-                "comment": {
-                  "example": "any"
-                }
-              }
-            }
           }
+      
         ],
         "responses": {
           "200": {
@@ -380,29 +414,17 @@
       },
       "delete": {
         "description": "",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "userId": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {
