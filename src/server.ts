@@ -4,7 +4,7 @@ import { router } from './routers/index';
 import { connectDB } from './config/db';
 import swaggerUi from 'swagger-ui-express';
 
-const app = express();
+export const app = express();
 
 connectDB();
 
