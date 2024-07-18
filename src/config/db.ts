@@ -6,8 +6,7 @@ import mongoose from 'mongoose';
 
 export function connectDB() {
 
-    const DATABASE_URL = 'mongodb://localhost:27017/mydatabase';
-
+    const DATABASE_URL = process.env.DATABASE_URL;
     try {
         mongoose.connect(DATABASE_URL as string, {});
 
